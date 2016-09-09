@@ -1,18 +1,18 @@
 /**
- * Project Name : hibernate <br>
+ * Project Name : example-hibernate-jpa <br>
  * File Name : Service.java <br>
- * Package Name : com.lee.example.h <br>
+ * Package Name : com.lee.example.hj <br>
  * Create Time : Sep 9, 2016 <br>
  * Create by : jimmyblylee@126.com <br>
  * Copyright © 2006, 2016, Jimmybly Lee. All rights reserved.
  */
-package com.lee.example.h;
+package com.lee.example.hj;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import com.lee.example.h.entity.Group;
 import com.lee.example.h.entity.User;
@@ -26,29 +26,28 @@ import com.lee.example.h.entity.User;
  */
 public class Service {
 
-    private SessionFactory factory;
-    private Session session;
+    private EntityManagerFactory factory;
+    private EntityManager em;
+    
     
     public Service() {
-        Configuration cfg = new Configuration().configure();
-        factory = cfg.buildSessionFactory();
-        session = factory.openSession();
+        factory = Persistence.createEntityManagerFactory("data_mgmt");
+        em = factory.createEntityManager();
     }
     
     @SuppressWarnings("unchecked")
     public List<Group> getAllGroups() {
-        return session.createQuery("from Group").list();
+        return em.createQuery("from Group").getResultList();
     }
     
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        return session.createQuery("from User").list();
+        return em.createQuery("from User").getResultList();
     }
     
     public void close() {
-        if (session != null) {
-            session.disconnect();
-            session.close();
+        if (em != null) {
+            em.close();
         }
         if (factory != null) {
             factory.close();

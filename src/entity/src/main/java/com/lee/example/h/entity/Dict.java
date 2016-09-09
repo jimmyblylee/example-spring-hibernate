@@ -1,5 +1,5 @@
 /**
- * Project Name : hibernate <br>
+ * Project Name : example-hibernate-entity <br>
  * File Name : Dict.java <br>
  * Package Name : com.lee.example.h.entity <br>
  * Create Time : Sep 9, 2016 <br>

@@ -9,14 +9,14 @@
     </parent>
     
     <groupId>com.lee.example</groupId>
-    <artifactId>example-hibernate-standalone</artifactId>
+    <artifactId>example-hibernate-jpa</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Hibernate Standalone Example</name>
+    <name>Hibernate JPA Example</name>
     <description>
         <![CDATA[
-            Connecting MySQL with Hibernate standalone.
+            Connecting MySQL with Hibernate JPA.
         ]]>
     </description>
     
@@ -29,7 +29,7 @@
         <!-- hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

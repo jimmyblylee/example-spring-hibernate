@@ -50,7 +50,7 @@ public class OutputData {
      * Create Time: Sep 9, 2016 <br>
      * Create by : jimmyblylee@126.com <br>
      *
-     * @param args
+     * @param args no args accept
      */
     public static void main(String[] args) {
         new OutputData().print();

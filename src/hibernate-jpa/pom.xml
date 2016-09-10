@@ -71,7 +71,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <mainClass>com.lee.example.h.OutputData</mainClass>
+                            <mainClass>com.lee.example.hj.OutputData</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -28,23 +28,23 @@ public class Service {
 
     private SessionFactory factory;
     private Session session;
-    
+
     public Service() {
         Configuration cfg = new Configuration().configure();
         factory = cfg.buildSessionFactory();
         session = factory.openSession();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<Group> getAllGroups() {
-        return session.createQuery("from Group").list();
+        return session.createQuery("from Group").getResultList();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        return session.createQuery("from User").list();
+        return session.createQuery("from User").getResultList();
     }
-    
+
     public void close() {
         if (session != null) {
             session.disconnect();

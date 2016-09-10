@@ -25,7 +25,7 @@ import com.lee.example.h.entity.User;
  */
 public class OutputData {
     private Logger log = LoggerFactory.getLogger(getClass());
-    
+
     public void print() {
         Service service = new Service();
         List<User> users = service.getAllUsers();
@@ -34,7 +34,8 @@ public class OutputData {
         for (User user : users) {
             log.info("-------------");
             log.info("User {} is found,", user.getName());
-            log.info("{}'s sex is {}, role is {}, type is {}", user.getName(), user.getSex().getValue(), user.getRole().getName(), user.getType().getValue());
+            log.info("{}'s sex is {}, role is {}, type is {}", user.getName(), user.getSex().getValue(),
+                    user.getRole().getName(), user.getType().getValue());
             log.info("And user is in group {}", user.getGroups());
         }
         log.info("#####################");
@@ -50,7 +51,7 @@ public class OutputData {
      * Create Time: Sep 9, 2016 <br>
      * Create by : jimmyblylee@126.com <br>
      *
-     * @param args
+     * @param args no args accept
      */
     public static void main(String[] args) {
         new OutputData().print();

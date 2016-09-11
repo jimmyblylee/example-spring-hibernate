@@ -8,11 +8,11 @@
  */
 package com.lee.example.shj;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -78,5 +78,31 @@ public class ServiceTest {
         } catch (Exception e) {
             assertThat(e, instanceOf(LazyInitializationException.class));
         }
+    }
+
+    @Test
+    public void testUpdateDatabaseSuccess() {
+        service.clearTestData();
+        assertThat(service.getTestDataCount(), is(0));
+        service.createOneTestDataSuccess();
+        assertThat(service.getTestDataCount(), is(1));
+        service.createOneTestDataSuccess();
+        assertThat(service.getTestDataCount(), is(2));
+        service.clearTestData();
+        assertThat(service.getTestDataCount(), is(0));
+    }
+
+    @Test
+    public void testUpdateDatabaseFailure() {
+        service.clearTestData();
+        assertThat(service.getTestDataCount(), is(0));
+        try {
+            service.createOneTestDataFail();
+        } catch (Exception e) {
+            assertThat(e.getMessage(), is(AppService.CNS_MANUAL_FAIL_MSG));
+        }
+        assertThat(service.getTestDataCount(), is(0));
+        service.clearTestData();
+        assertThat(service.getTestDataCount(), is(0));
     }
 }

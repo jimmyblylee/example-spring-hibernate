@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import com.lee.example.h.entity.Group;
+import com.lee.example.h.entity.Role;
 import com.lee.example.h.entity.User;
 
 /**
@@ -57,5 +58,18 @@ public class AppDao {
         hql.append("select distinct g from Group as g");
         hql.append(" left join fetch g.users");
         return em.createQuery(hql.toString()).getResultList();
+    }
+
+    public void saveTestData(Object entity) {
+        em.persist(entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Role> getTestData() {
+        return em.createQuery("from Role as r where r.name = :name").setParameter("name", "testData").getResultList();
+    }
+
+    public void clearTestData() {
+        em.createQuery("delete from Role as r where r.name = :name").setParameter("name", "testData").executeUpdate();
     }
 }

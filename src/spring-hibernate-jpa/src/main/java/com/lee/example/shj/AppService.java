@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lee.example.h.entity.Group;
+import com.lee.example.h.entity.Role;
 import com.lee.example.h.entity.User;
 
 /**
@@ -31,6 +32,8 @@ import com.lee.example.h.entity.User;
 @Service
 @Scope(value = SCOPE_PROTOTYPE)
 public class AppService {
+    
+    public final static String CNS_MANUAL_FAIL_MSG = "Test failure, and the tx should rollback here!";
 
     @Resource
     private AppDao dao;
@@ -69,6 +72,56 @@ public class AppService {
     @Transactional(readOnly = true)
     public List<User> getAllUsers4LazyTest() {
         return dao.getAllUsers();
+    }
+
+    /**
+     * Description : craete a Role for test with name "testData" <br>
+     * Create Time: 2016-09-11 <br>
+     * Create by : jimmyblylee@126.com <br>
+     *
+     */
+    @Transactional(readOnly = false)
+    public void createOneTestDataSuccess() {
+        Role role = new Role();
+        role.setName("testData");
+        dao.saveTestData(role);
+    }
+    
+    /**
+     * Description : craete a Role for test with name "testData", but failed with exception <br>
+     * Create Time: 2016-09-11 <br>
+     * Create by : jimmyblylee@126.com <br>
+     *
+     */
+    @Transactional(readOnly = false)
+    public void createOneTestDataFail() {
+        Role role = new Role();
+        role.setName("testData");
+        dao.saveTestData(role);
+        throw new RuntimeException(CNS_MANUAL_FAIL_MSG);
+    }
+
+    /**
+     * Description : get the count of Role which name is "testData" <br>
+     * Create Time: 2016-09-11 <br>
+     * Create by : jimmyblylee@126.com <br>
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Integer getTestDataCount() {
+        return dao.getTestData().size();
+    }
+
+    /**
+     * Description : clear all the Role with name "testData" <br>
+     * Create Time: 2016-09-11 <br>
+     * Create by : jimmyblylee@126.com <br>
+     *
+     */
+    @Transactional(readOnly = false)
+    public void clearTestData() {
+        dao.clearTestData();
     }
 
 }

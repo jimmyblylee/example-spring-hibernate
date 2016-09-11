@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+        http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.2.xsd"
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context">
+
+    <context:component-scan base-package="com.lee.example.shja" />
+    <context:annotation-config />
+
+    <context:property-placeholder location="classpath:jdbc.properties" />
+
+    <bean id="dsa_EntityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="pu_A" />
+        <property name="dataSource">
+            <bean class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+                <property name="uniqueResourceName" value="urn_A"/>
+                <property name="xaDataSourceClassName"><value>${jdbc.xa.datasource.classname}</value></property>
+                <property name="xaProperties">
+                    <props>
+                        <prop key="pinGlobalTxToPhysicalConnection">true</prop>
+                        <prop key="url">${jdbc.url.a}</prop>
+                        <prop key="user">${jdbc.username.a}</prop>
+                        <prop key="password">${jdbc.password.a}</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="dsb_EntityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="pu_B" />
+        <property name="dataSource">
+            <bean class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+                <property name="uniqueResourceName" value="urn_B"/>
+                <property name="xaDataSourceClassName"><value>${jdbc.xa.datasource.classname}</value></property>
+                <property name="xaProperties">
+                    <props>
+                        <prop key="pinGlobalTxToPhysicalConnection">true</prop>
+                        <prop key="url">${jdbc.url.b}</prop>
+                        <prop key="user">${jdbc.username.b}</prop>
+                        <prop key="password">${jdbc.password.b}</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- jta transaction -->
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+        <property name="forceShutdown" value="false"/>
+        <property name="transactionTimeout" value="300" />
+    </bean>
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+        <property name="TransactionTimeout" value="300"/>
+    </bean>
+    <bean class="com.lee.example.jta.AtomikosJtaPlatform">
+        <property name="transactionManager" ref="atomikosTransactionManager"/>
+        <property name="transaction" ref="atomikosUserTransaction" />
+    </bean>
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="atomikosTransactionManager"></property>
+        <property name="userTransaction" ref="atomikosUserTransaction"></property>
+        <property name="allowCustomIsolationLevels" value="true"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 
+    <bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+     -->
+</beans>

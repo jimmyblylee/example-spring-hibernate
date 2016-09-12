@@ -11,7 +11,7 @@ Examples for connecting MySQL interjecting with Spring, Hibernate, JPA, JTA, Ato
 |4|`JPA`|2.1
 
 # Example Discription
-|  #  | project name | Spring | Hibernate | JPA | Distributed Transaction | Tested |           Remarks            |
+|  #  | Example | Spring | Hibernate | JPA | Distributed Transaction | Tested |           Remarks            |
 |:---:|:-------------|:------:|:---------:|:---:|:-----------------------:|:------:|:------------------------------|
 |1|[hibernate standalone][h]|:x:|:white_check_mark:|:x:|:x:|:white_check_mark:|Standalone Hibernate example with hibernate.cfg.xml|
 |2|[hibernate jpa][hj]|:x:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|Using persistence.xml to config JPA|

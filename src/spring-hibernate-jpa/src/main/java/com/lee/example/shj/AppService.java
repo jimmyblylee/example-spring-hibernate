@@ -106,7 +106,7 @@ public class AppService {
      * Create Time: 2016-09-11 <br>
      * Create by : jimmyblylee@126.com <br>
      *
-     * @return
+     * @return the count of Role with name "testData"
      */
     @Transactional(readOnly = true)
     public Integer getTestDataCount() {

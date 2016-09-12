@@ -42,7 +42,11 @@
         <!-- distributed transaction support -->
         <dependency>
             <groupId>com.atomikos</groupId>
-            <artifactId>transactions-hibernate4</artifactId>
+            <artifactId>transactions-jta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

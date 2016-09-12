@@ -43,15 +43,7 @@
         <!-- distributed transaction support -->
         <dependency>
             <groupId>com.atomikos</groupId>
-            <artifactId>transactions-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-jta</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
+            <artifactId>transactions-hibernate4</artifactId>
         </dependency>
         <!-- driver -->
         <dependency>

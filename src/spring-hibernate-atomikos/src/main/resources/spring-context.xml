@@ -13,85 +13,84 @@
     <context:property-placeholder location="classpath:jdbc.properties" />
     <context:annotation-config />
 
-    <bean id="dataSource_a" class="com.atomikos.jdbc.AtomikosDataSourceBean" destroy-method="close">
-        <description>test datasource for database a</description>
-        <property name="uniqueResourceName" value="ds_a"/>
-        <property name="xaDataSourceClassName"><value>${jdbc.xaDataSourceClassName}</value></property>
-        <property name="xaProperties">
-            <props>
-                <prop key="url">${jdbc.url.database.a}</prop>
-                <prop key="user">${jdbc.username.database.a}</prop>
-                <prop key="password">${jdbc.password.database.a}</prop>
-            </props>
-        </property>
-        <property name="poolSize" value="3" />
-        <property name="reapTimeout" value="20000" />
-    </bean>
-    <bean id="dataSource_b" class="com.atomikos.jdbc.AtomikosDataSourceBean" destroy-method="close">
-        <description>test datasource for database b</description>
-        <property name="uniqueResourceName" value="ds_b"/>
-        <property name="xaDataSourceClassName"><value>${jdbc.xaDataSourceClassName}</value></property>
-        <property name="xaProperties">
-            <props>
-                <prop key="URL">${jdbc.url.database.b}</prop>
-                <prop key="user">${jdbc.username.database.b}</prop>
-                <prop key="password">${jdbc.password.database.b}</prop>
-            </props>
-        </property>
-        <property name="poolSize" value="3" />
-        <property name="reapTimeout" value="20000" />
-    </bean>
-
     <bean id="sessionFactory_A" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource_a" />
-        <property name="packagesToScan">
-            <list>
-                <value>com.lee.example.h.entity</value>
-            </list>
+        <property name="packagesToScan" value="com.lee.example.h.entity" />
+        <property name="jtaTransactionManager" ref="transactionManager"/>
+        <property name="dataSource">
+            <bean class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close" depends-on="atomikosTransactionService">
+                <property name="uniqueResourceName" value="urn_A"/>
+                <property name="maxPoolSize" value="50" />
+                <property name="minPoolSize" value="10" />
+                <property name="xaDataSource">
+                    <bean class="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource">
+                        <property name="pinGlobalTxToPhysicalConnection" value="true" />
+                        <property name="url"><value>${jdbc.url.database.a}</value></property>
+                        <property name="user"><value>${jdbc.username.database.a}</value></property>
+                        <property name="password"><value>${jdbc.password.database.a}</value></property>
+                    </bean>
+                 </property>
+            </bean>
         </property>
-        <property name="jtaTransactionManager" ref="atomikosTransactionManager"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${jdbc.hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.validator.autoregister_listeners">false</prop>
                 <prop key="hibernate.connection.autocommit">false</prop>
+                <prop key="hibernate.search.autoregister_listeners">false</prop>
                 <prop key="hibernate.transaction.coordinator_class">jta</prop>
+                <prop key="hibernate.current_session_context_class">jta</prop>
             </props>
         </property>
     </bean>
 
     <bean id="sessionFactory_B" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource_b" />
-        <property name="packagesToScan">
-            <list>
-                <value>com.lee.example.h.entity</value>
-            </list>
+        <property name="packagesToScan" value="com.lee.example.h.entity" />
+        <property name="jtaTransactionManager" ref="transactionManager"/>
+        <property name="dataSource">
+            <bean class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close" depends-on="atomikosTransactionService">
+                <property name="uniqueResourceName" value="urn_B"/>
+                <property name="maxPoolSize" value="50" />
+                <property name="minPoolSize" value="10" />
+                <property name="xaDataSource">
+                    <bean class="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource">
+                        <property name="pinGlobalTxToPhysicalConnection" value="true" />
+                        <property name="url"><value>${jdbc.url.database.b}</value></property>
+                        <property name="user"><value>${jdbc.username.database.b}</value></property>
+                        <property name="password"><value>${jdbc.password.database.b}</value></property>
+                    </bean>
+                 </property>
+            </bean>
         </property>
-        <property name="jtaTransactionManager" ref="atomikosTransactionManager"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${jdbc.hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.validator.autoregister_listeners">false</prop>
                 <prop key="hibernate.connection.autocommit">false</prop>
+                <prop key="hibernate.search.autoregister_listeners">false</prop>
                 <prop key="hibernate.transaction.coordinator_class">jta</prop>
+                <prop key="hibernate.current_session_context_class">jta</prop>
             </props>
         </property>
     </bean>
     
     <!-- jta transaction -->
-    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager">
+    <bean id="atomikosTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp" init-method="init" destroy-method="shutdownWait" />
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close" depends-on="atomikosTransactionService">
         <property name="forceShutdown" value="true"/>
+        <property name="transactionTimeout" value="300" />
     </bean>
-    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
-        <property name="TransactionTimeout" value="15"/>
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="atomikosTransactionService">
+        <property name="TransactionTimeout" value="300"/>
     </bean>
     <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
         <property name="transactionManager" ref="atomikosTransactionManager"></property>
         <property name="userTransaction" ref="atomikosUserTransaction"></property>
         <property name="allowCustomIsolationLevels" value="true"></property>
     </bean>
-    <tx:annotation-driven/>
-    
-   <!-- translate hibernate exception into spring exception, and make exception more kindfull, All @Repository annotated Dao will be proxied
-   <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 </beans>

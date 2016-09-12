@@ -26,8 +26,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.lee.example.h.entity.Group2;
-import com.lee.example.h.entity.User2;
+import com.lee.example.h.entity.Group;
+import com.lee.example.h.entity.User;
 
 /**
  * ClassName : ServiceTest <br>
@@ -45,18 +45,18 @@ public class ServiceTest {
 
     @Test
     public void testGetAllGroup() {
-        List<Group2> groups = service.getAllGroups();
+        List<Group> groups = service.getAllGroups();
         assertNotNull(groups);
         assertThat(groups.size(), is(2));
-        for (Group2 group : groups) {
-            assertThat(group.getGus(), notNullValue());
-            assertThat(group.getGus().size(), greaterThan(0));
+        for (Group group : groups) {
+            assertThat(group.getUsers(), notNullValue());
+            assertThat(group.getUsers().size(), greaterThan(0));
         }
     }
 
     @Test
     public void testGetAllUser() {
-        List<User2> users = service.getAllUsers();
+        List<User> users = service.getAllUsers();
         assertNotNull(users);
         assertThat(users.size(), is(6));
         assertThat(users.toString(), containsString("Jimmy"));
@@ -64,10 +64,10 @@ public class ServiceTest {
 
     @Test
     public void testGetUserLazyProperties() {
-        List<User2> users = service.getAllUsers4LazyTest();
+        List<User> users = service.getAllUsers4LazyTest();
         assertNotNull(users);
         assertThat(users.size(), greaterThan(0));
-        User2 user = users.get(0);
+        User user = users.get(0);
         assertThat(user, notNullValue());
         assertThat(user.getName(), notNullValue());
 

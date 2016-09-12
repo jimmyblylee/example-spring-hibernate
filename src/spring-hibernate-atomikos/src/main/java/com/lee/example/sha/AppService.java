@@ -18,9 +18,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lee.example.h.entity.Group2;
+import com.lee.example.h.entity.Group;
 import com.lee.example.h.entity.Role;
-import com.lee.example.h.entity.User2;
+import com.lee.example.h.entity.User;
 
 /**
  * ClassName : AppService <br>
@@ -46,7 +46,7 @@ public class AppService {
      * @return all users in the database
      */
     @Transactional(readOnly = true)
-    public List<User2> getAllUsers() {
+    public List<User> getAllUsers() {
         return dao.getAllUsersNoLazy();
     }
 
@@ -58,7 +58,7 @@ public class AppService {
      * @return all groups in the database
      */
     @Transactional(readOnly = true)
-    public List<Group2> getAllGroups() {
+    public List<Group> getAllGroups() {
         return dao.getAllGroupsNoLazy();
     }
 
@@ -70,7 +70,7 @@ public class AppService {
      * @return all users with lazy properties which are not initialized
      */
     @Transactional(readOnly = true)
-    public List<User2> getAllUsers4LazyTest() {
+    public List<User> getAllUsers4LazyTest() {
         return dao.getAllUsers();
     }
 

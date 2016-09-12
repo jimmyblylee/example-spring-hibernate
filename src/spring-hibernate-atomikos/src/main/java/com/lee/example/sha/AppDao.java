@@ -16,9 +16,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import com.lee.example.h.entity.Group2;
+import com.lee.example.h.entity.Group;
 import com.lee.example.h.entity.Role;
-import com.lee.example.h.entity.User2;
+import com.lee.example.h.entity.User;
 
 /**
  * ClassName : AppDao <br>
@@ -43,31 +43,31 @@ public class AppDao {
     }
     
     @SuppressWarnings("unchecked")
-    public List<User2> getAllUsers() {
-        return getSession().createQuery("from User2").getResultList();
+    public List<User> getAllUsers() {
+        return getSession().createQuery("from User").getResultList();
     }
     
     @SuppressWarnings("unchecked")
-    public List<Group2> getAllGroups() {
-        return getSession().createQuery("from Group2").getResultList();
+    public List<Group> getAllGroups() {
+        return getSession().createQuery("from Group").getResultList();
     }
     
     @SuppressWarnings("unchecked")
-    public List<User2> getAllUsersNoLazy() {
+    public List<User> getAllUsersNoLazy() {
         StringBuilder hql = new StringBuilder();
-        hql.append(" select distinct u from User2 as u");
+        hql.append(" select distinct u from User as u");
         hql.append(" left join fetch u.sex");
         hql.append(" left join fetch u.role");
-        hql.append(" left join fetch u.gus");
+        hql.append(" left join fetch u.groups");
         hql.append(" left join fetch u.type");
         return getSession().createQuery(hql.toString()).getResultList();
     }
     
     @SuppressWarnings("unchecked")
-    public List<Group2> getAllGroupsNoLazy() {
+    public List<Group> getAllGroupsNoLazy() {
         StringBuilder hql = new StringBuilder();
-        hql.append("select distinct g from Group2 as g");
-        hql.append(" left join fetch g.gus");
+        hql.append("select distinct g from Group as g");
+        hql.append(" left join fetch g.users");
         return getSession().createQuery(hql.toString()).getResultList();
     }
 

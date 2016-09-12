@@ -24,3 +24,5 @@ target
 rebel.xml
 *.bak
 *.log
+*.epoch
+*.lck

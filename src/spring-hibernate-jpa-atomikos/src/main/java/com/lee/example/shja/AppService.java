@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.perf4j.aop.Profiled;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -143,6 +144,7 @@ public class AppService {
      * Create by : jimmyblylee@126.com <br>
      *
      */
+    @Profiled
     @Transactional(readOnly = false)
     public void createOneTestDataFailWithEmB() {
         Role role = new Role();
@@ -158,6 +160,7 @@ public class AppService {
      *
      * @return the count of Role with name testDataB
      */
+    @Profiled
     @Transactional(readOnly = true)
     public Integer getTestDataCountWithEmB() {
         return dao.getTestDataWithEmB().size();
@@ -169,6 +172,7 @@ public class AppService {
      * Create by : jimmyblylee@126.com <br>
      *
      */
+    @Profiled
     @Transactional(readOnly = false)
     public void clearTestDataWithEmB() {
         dao.clearTestDataWithEmB();

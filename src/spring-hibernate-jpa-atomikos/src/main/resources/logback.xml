@@ -4,17 +4,27 @@
             <pattern>%d{HH:mm:ss.SSS} |- %-5p %c{15}.%M\(\) \(%F %L\) - %m %rEx %n</pattern>
         </encoder>
     </appender>
-    <!-- 
-    <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
-        <withJansi>true</withJansi>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%boldYellow(%d{HH:mm:ss.SSS} |-) %highlight(%-5p) %boldYellow(%c{15}.%M\(\) \(%F %L\) -) %boldCyan(%m) %rEx %n</pattern>
+
+    <appender name="PERF_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>target/app_logs/perf.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>target/app_logs/perf-%d{yyyy-MM-dd_HH}.%i.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>10MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%m%n</pattern>
         </encoder>
     </appender>
-    -->
     <!-- app logs -->
     <logger name="com.lee.example.shja" level="TRACE" />
-
+    
+    <!-- performance logs -->
+    <logger name="org.perf4j.TimingLogger" level="INFO" additivity="false">
+        <appender-ref ref="PERF_FILE" />
+    </logger>
     <!-- Spring's logs -->
     <logger name="org.springframework" level="WARN" />
     <logger name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader" level="INFO" />

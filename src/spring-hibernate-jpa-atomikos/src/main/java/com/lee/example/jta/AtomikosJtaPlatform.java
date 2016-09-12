@@ -49,10 +49,5 @@ public class AtomikosJtaPlatform extends AbstractJtaPlatform {
     public static void setTransaction(UserTransaction transaction) {
         AtomikosJtaPlatform.transaction = transaction;
     }
-    
-    public static void print() {
-        System.out.println(AtomikosJtaPlatform.transactionManager);
-        System.out.println(AtomikosJtaPlatform.transaction);
-    }
 
 }

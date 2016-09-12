@@ -7,10 +7,9 @@
         
         <!-- managed entities -->
         <class>com.lee.example.h.entity.Dict</class>
-        <class>com.lee.example.h.entity.Group2</class>
+        <class>com.lee.example.h.entity.Group</class>
         <class>com.lee.example.h.entity.Role</class>
-        <class>com.lee.example.h.entity.User2</class>
-        <class>com.lee.example.h.entity.GroupUser</class>
+        <class>com.lee.example.h.entity.User</class>
         
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         
@@ -22,6 +21,8 @@
             <property name="hibernate.jdbc.batch_size" value="50" />
             <property name="hibernate.jdbc.fetch_size" value="100" />
             <property name="hibernate.transaction.jta.platform" value="com.lee.example.jta.AtomikosJtaPlatform"/>
+            <property name="hibernate.current_session_context_class" value="jta"/>
+            <property name="hibernate.search.autoregister_listeners" value="false"/>
         </properties>
 
     </persistence-unit>
@@ -31,10 +32,9 @@
         
         <!-- managed entities -->
         <class>com.lee.example.h.entity.Dict</class>
-        <class>com.lee.example.h.entity.Group2</class>
+        <class>com.lee.example.h.entity.Group</class>
         <class>com.lee.example.h.entity.Role</class>
-        <class>com.lee.example.h.entity.User2</class>
-        <class>com.lee.example.h.entity.GroupUser</class>
+        <class>com.lee.example.h.entity.User</class>
         
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         
@@ -46,6 +46,8 @@
             <property name="hibernate.jdbc.batch_size" value="50" />
             <property name="hibernate.jdbc.fetch_size" value="100" />
             <property name="hibernate.transaction.jta.platform" value="com.lee.example.jta.AtomikosJtaPlatform"/>
+            <property name="hibernate.current_session_context_class" value="jta"/>
+            <property name="hibernate.search.autoregister_listeners" value="false"/>
         </properties>
 
     </persistence-unit>

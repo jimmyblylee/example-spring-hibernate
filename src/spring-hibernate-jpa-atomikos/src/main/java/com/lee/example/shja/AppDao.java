@@ -15,9 +15,9 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import com.lee.example.h.entity.Group2;
+import com.lee.example.h.entity.Group;
 import com.lee.example.h.entity.Role;
-import com.lee.example.h.entity.User2;
+import com.lee.example.h.entity.User;
 
 /**
  * ClassName : AppDao <br>
@@ -34,31 +34,31 @@ public class AppDao {
     private EntityManager emb;
     
     @SuppressWarnings("unchecked")
-    public List<User2> getAllUsers() {
-        return em.createQuery("from User2").getResultList();
+    public List<User> getAllUsers() {
+        return em.createQuery("from User").getResultList();
     }
     
     @SuppressWarnings("unchecked")
-    public List<Group2> getAllGroups() {
-        return em.createQuery("from Group2").getResultList();
+    public List<Group> getAllGroups() {
+        return em.createQuery("from Group").getResultList();
     }
     
     @SuppressWarnings("unchecked")
-    public List<User2> getAllUsersNoLazy() {
+    public List<User> getAllUsersNoLazy() {
         StringBuilder hql = new StringBuilder();
-        hql.append(" select distinct u from User2 as u");
+        hql.append(" select distinct u from User as u");
         hql.append(" left join fetch u.sex");
         hql.append(" left join fetch u.role");
-        hql.append(" left join fetch u.gus");
+        hql.append(" left join fetch u.groups");
         hql.append(" left join fetch u.type");
         return em.createQuery(hql.toString()).getResultList();
     }
     
     @SuppressWarnings("unchecked")
-    public List<Group2> getAllGroupsNoLazy() {
+    public List<Group> getAllGroupsNoLazy() {
         StringBuilder hql = new StringBuilder();
-        hql.append("select distinct g from Group2 as g");
-        hql.append(" left join fetch g.gus");
+        hql.append("select distinct g from Group as g");
+        hql.append(" left join fetch g.users");
         return em.createQuery(hql.toString()).getResultList();
     }
 

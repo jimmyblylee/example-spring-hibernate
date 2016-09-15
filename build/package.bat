@@ -8,6 +8,10 @@ pushd %BASEDIR%\..\src
   call mvn clean package
 popd
 
+pushd %BASEDIR%\..\src\entity
+  call mvn install
+popd
+
 call beep.bat
 timeout /t 1 >NUL 
 call beep.bat

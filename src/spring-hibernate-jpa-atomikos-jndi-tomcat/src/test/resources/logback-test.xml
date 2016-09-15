@@ -1,0 +1,13 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss.SSS} |- %-5p %c{15}.%M\(\) \(%F %L\) - %m %rEx %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- app logs -->
+    <logger name="com.lee.example.shja" level="TRACE" />
+    <root level="ERROR">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

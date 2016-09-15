@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd"
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context">
+
+    <bean class="com.lee.example.shjajt.AppDao" />
+    <bean class="com.lee.example.shjajt.AppService" />
+    
+    <context:annotation-config />
+
+    <bean id="dsa_EntityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="pu_A" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="MYSQL" />
+            </bean>
+        </property>
+        <property name="jtaDataSource">
+            <bean class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close" depends-on="atomikosTransactionService">
+                <property name="uniqueResourceName" value="urn_A"/>
+                <property name="maxPoolSize" value="50" />
+                <property name="minPoolSize" value="10" />
+                <property name="xaDataSource">
+                    <jee:jndi-lookup jndi-name="jdbc/db_a" />
+                 </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="dsb_EntityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="pu_B" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="MYSQL" />
+            </bean>
+        </property>
+        <property name="jtaDataSource">
+            <bean class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close" depends-on="atomikosTransactionService">
+                <property name="uniqueResourceName" value="urn_B"/>
+                <property name="maxPoolSize" value="50" />
+                <property name="minPoolSize" value="10" />
+                <property name="xaDataSource">
+                    <jee:jndi-lookup jndi-name="jdbc/db_b" />
+                 </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- jta transaction -->
+    <bean id="atomikosTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp" init-method="init" destroy-method="shutdownWait" />
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close" depends-on="atomikosTransactionService">
+        <property name="forceShutdown" value="true"/>
+        <property name="transactionTimeout" value="300" />
+    </bean>
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="atomikosTransactionService">
+        <property name="TransactionTimeout" value="300"/>
+    </bean>
+    <bean class="com.lee.example.jta.AtomikosJtaPlatform">
+        <property name="transactionManager" ref="atomikosTransactionManager"/>
+        <property name="transaction" ref="atomikosUserTransaction" />
+    </bean>
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="atomikosTransactionManager"></property>
+        <property name="userTransaction" ref="atomikosUserTransaction"></property>
+        <property name="allowCustomIsolationLevels" value="true"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+</beans>

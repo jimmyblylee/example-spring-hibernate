@@ -30,7 +30,7 @@ pushd %TEMP%
     echo %TEMP%\%PACKAGE%
     %ZIP% x -o. %TEMP%\%PACKAGE%
     
-    rmdir /S /Q %BASE_HOME%\workspace
+    rmdir /S /Q %BASE_HOME%\workspace >NUL 2>NUL
     mkdir %BASE_HOME%\workspace
     xcopy /Y /e /h %BASE_HOME%\setup\common %TEMP%\workspace\common >NUL 2>NUL
     xcopy /Y /e /h %BASE_HOME%\setup\conf %TEMP%\workspace\conf >NUL 2>NUL
@@ -38,6 +38,6 @@ pushd %TEMP%
     xcopy /Y /e /h %TEMP%\workspace %BASE_HOME%\workspace >NUL 2>NUL
 popd
 
-call %BASE_HOME%\workspace\win\setupWorkspace.bat
-
 rmdir /S /Q %TEMP% >NUL 2>NUL
+
+call %BASE_HOME%\workspace\win\setupWorkspace.bat

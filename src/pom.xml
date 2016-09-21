@@ -13,6 +13,7 @@
     <modules>
         <module>entity</module>
         <module>hibernate</module>
+        <module>hibernate-entity-over-interface</module>
         <module>hibernate-jpa</module>
         <module>spring-hibernate</module>
         <module>spring-hibernate-atomikos</module>

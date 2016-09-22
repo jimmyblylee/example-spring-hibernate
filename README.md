@@ -19,6 +19,8 @@ Examples for connecting MySQL interjecting with Spring, Hibernate, JPA, JTA, Ato
 |4|[spring hibernate jpa][shj]|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|Using none persistence.xml, all JPA configuration is managed by spring.|
 |5|[spring hibernate atomikos][sha]|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|Using hibernate session facotry with Atomikos Transaction manager, Annotation drived TX.|
 |6|[spring hibernate jpa atomikos][shja]|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|Using JPA with atomikos transaction as JTA, and self-defined AtomikosJtaPlatform.|
+|7|[spring hibernate jpa atomikos jndi][shjajt]|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|Using JPA with atomikos transaction as JTA, and JNDI deployed by tomcat.|
+|8|[hibernate Interface oriented entity][h]|:x:|:white_check_mark:|:x:|:x:|:white_check_mark:|Standalone Hibernate example using interface instaed of class to define entity, and HQL.| 
 
 [h]:https://github.com/jimmyblylee/example-spring-hibernate/tree/master/src/hibernate
 [hj]:https://github.com/jimmyblylee/example-spring-hibernate/tree/master/src/hibernate-jpa
@@ -26,3 +28,4 @@ Examples for connecting MySQL interjecting with Spring, Hibernate, JPA, JTA, Ato
 [shj]:https://github.com/jimmyblylee/example-spring-hibernate/tree/master/src/spring-hibernate-jpa
 [sha]:https://github.com/jimmyblylee/example-spring-hibernate/tree/master/src/spring-hibernate-atomikos
 [shja]:https://github.com/jimmyblylee/example-spring-hibernate/tree/master/src/spring-hibernate-jpa-atomikos
+[shjajt]:https://github.com/jimmyblylee/example-spring-hibernate/tree/master/src/spring-hibernate-jpa-atomikos-jndi-tomcat
